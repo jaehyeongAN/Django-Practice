@@ -17,8 +17,10 @@ def home(request):
 
 def login(request):
 	if request.method == 'POST':
+		# form 인스턴스를 생성하고 요청에 의한 데이터를 채움 (binding)
 		form = LoginForm(request.POST)
-		if form.is_valid(): # 유효성 검사 
+		# form 유효성 체크 
+		if form.is_valid(): 
 			# form 입력이 정상적이면 session에 저장하고, 정상적이지 않을 경우엔 form에 error 메시지를 같이 넣어 전달 
 			request.session['user'] = form.user_id # form에서 id를 가져옴
 			return redirect('/') # root로 이동

@@ -16,7 +16,7 @@
 <div class="row mt-5">
 	<div class='col-12'>
 		<form method="POST" action=".">
-			{% csrf_token %} <!-- 보안상 -->
+			{% csrf_token %} <!-- 보안 -->
 			{% for field in form %} <!-- form 태그의 필드(username, password)를 반복 -->
 				<div class="form-group">
 					<label for="{{ field.id_for_label }}">{{ field.label }}</label>
