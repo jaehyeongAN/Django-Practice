@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponse
 from .models import Customer
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
 
 # Create your views here.
 
@@ -37,32 +37,19 @@ def logout(request):
 
 	return redirect('/')
 
-
 def register(request):
-	if request.method == 'GET':
-		return render(request, 'register.html')
-
-	elif request.method == 'POST':
-		customername = request.POST.get('customername', None) # key값을 가져오는데 값이 없으면 None으로 지정 
-		customeremail = request.POST.get('customeremail', None)
-		password = request.POST.get('password', None)
-		re_password = request.POST.get('re-password', None)
-
-		res_data = {}
-		if not (customername and customeremail and password and re_password):
-			# 값이 하나라도 입력이 안됐으면
-			res_data['error'] = '모든 값을 입력해주세요!'
-		elif password != re_password:
-			# 비밀번호가 서로 다르면 
-			res_data['error'] = '비밀번호가 일치하지 않습니다!'
-		else:
-			# 문제가 없을 경우 Admin에 추가 후 login.html로 이동 
+	if request.method == 'POST':
+		form = RegisterForm(request.POST)
+		if form.is_valid():
+			# 유효성 검사 문제 없을 경우 Cutomer 모델에 추가
 			customer = Customer(
-				customername = customername,
-				customeremail = customeremail,
-				password = make_password(password) # password를 암호화하여 저장
+				customername = form.data.get('customername'),
+				customeremail = form.data.get('customeremail'),
+				password = make_password(form.data.get('password')) # password를 암호화하여 저장
 				)
 			customer.save()
-			return render(request, 'login.html')
+			return redirect('/')
+	else:
+		form = RegisterForm()
 
-		return render(request, 'register.html', res_data) # views에서 선언한 변수를 html로 전달
+	return render(request, 'register.html', {'form':form})

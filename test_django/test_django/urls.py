@@ -20,5 +20,6 @@ from customer.views import home
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('customer/', include('customer.urls')),
+    path('board/', include('board.urls')),
     path('', home)
 ]

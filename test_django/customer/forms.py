@@ -4,6 +4,42 @@ from django.contrib.auth.hashers import check_password, make_password
 
 # from에서 해당 기능을 구현하고 클래스만 views.py에서 호출
 
+
+class RegisterForm(forms.Form):
+	customername = forms.CharField(
+		error_messages={
+			'required': '아이디를 입력해주세요.'
+		},
+		max_length=32, label='아이디를 입력해주세요.')
+	customeremail = forms.CharField(
+		error_messages={
+			'required': '이메일을 입력해주세요.'
+		},
+		max_length=64, label='이메일을 입력해주세요.')
+	password = forms.CharField(
+		error_messages={
+			'required': '비밀번호를 입력해주세요.'
+		},
+		widget=forms.PasswordInput, label='비밀번호를 입력해주세요.')
+	re_password = forms.CharField(
+		error_messages={
+			'required': '비밀번호를 입력해주세요.'
+		},
+		widget=forms.PasswordInput, label='비밀번호를 입력해주세요.')
+
+	def clean(self):
+		cleaned_data = super().clean()
+		customername = cleaned_data.get('customername')
+		customeremail = cleaned_data.get('customeremail')
+		password = cleaned_data.get('password')
+		re_password = cleaned_data.get('re_password')
+
+		if customername and customeremail and password and re_password:
+			if password != re_password:
+				self.add_error('password', '비밀번호가 서로 다릅니다!')
+				self.add_error('re_password', '비밀번호가 서로 다릅니다!')
+
+
 class LoginForm(forms.Form):
 	customername = forms.CharField(
 		error_messages={
