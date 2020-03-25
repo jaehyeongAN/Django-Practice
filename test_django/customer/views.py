@@ -10,7 +10,7 @@ def home(request):
 	user_id = request.session.get('user')
 	if user_id:
 		# login하여 session에 정보가 있을 경우
-		customer = Customer.objects.get(pk=user_id) # primary key
+		customer = Customer.objects.get(pk=user_id) # primary key(모델에 객체 생성 시 마다 순차적으로 고유한 값이 정해 짐(ex, 1,2,3,4,..))
 		return HttpResponse(customer.customername)
 
 	return HttpResponse('home!')
