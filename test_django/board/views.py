@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from django.http import Http404
 from .models import Board
 from .forms import BoardForm
@@ -7,7 +8,12 @@ from customer.models import Customer
 # Create your views here.
 
 def board_list(request):
-	boards = Board.objects.all().order_by('-id') # 모든 게시글을 최신순으로 가져옴
+	all_boards = Board.objects.all().order_by('-id') # 모든 게시글을 최신순으로 가져옴
+	page = int(request.GET.get('p', 1)) # p라는 페이지로 page값을 받고 없으면 1로 받음 
+	paginator = Paginator(all_boards, 3) # 3페이지 씩 보여줌 
+
+	boards = paginator.get_page(page)
+
 	return render(request, 'board_list.html', {'boards':boards})
 
 
