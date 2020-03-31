@@ -1,0 +1,35 @@
+<!-- base.html을 상속-->
+{% extends "base.html" %}
+
+<!-- base.html내의 block 안으로 아래 내용이 추가 되어 출력  -->
+{% block contents %}
+<div class="row mt-5">
+	<div class='col-12 text-center'>
+		<h1>홈페이지!</h1>
+	</div>
+</div>
+<div class="row mt-5">
+	<div class="col-12">
+		{{ error }} <!--views.py 로부터 넘어온 data 출력-->
+	</div>
+</div>
+<div class="row mt-5">
+	{% if request.session.user %}
+	<div class='col-12'>
+		<button class="btn btn-primary btn-block" onclick="location.href='customer/logout/'">로그아웃</button>
+	</div>
+	{% else %}
+	<div class='col-6'>
+		<button class="btn btn-primary btn-block" onclick="location.href='customer/login/'">로그인</button>
+	</div>
+	<div class='col-6'>
+		<button class="btn btn-primary btn-block" onclick="location.href='customer/register/'">회원가입</button>
+	</div>
+	{% endif %}
+</div>
+<div class="row mt-1">
+	<div class="col-12">
+		<button class="btn btn-primary btn-block" onclick="location.href='board/list/'">게시물 보기</button>
+	</div>
+</div>
+{% endblock %}

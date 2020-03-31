@@ -9,6 +9,7 @@ class Board(models.Model):
 	writer = models.ForeignKey('customer.Customer', # 참조하는 모델 
 									on_delete=models.CASCADE, # Customer모델의 사용자가 탈퇴하면 사용자의 모든 글 삭제
 									verbose_name='작성자')
+	tags = models.ManyToManyField('tag.Tag', verbose_name='태그')
 	registered_dttm = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
 
 	def __str__(self):
