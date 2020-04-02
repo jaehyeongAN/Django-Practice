@@ -6,7 +6,7 @@ class Customer(models.Model):
 	customername = models.CharField(max_length=64, verbose_name='고객명')
 	customeremail = models.CharField(max_length=128, verbose_name='고객이메일')
 	password = models.CharField(max_length=32, verbose_name='비밀번호')
-	registered_dttm = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
+	registered_dttm = models.DateTimeField(auto_now_add=True, verbose_name='등록날짜')
 
 	def __str__(self):
 		return self.customername
